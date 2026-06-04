@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Noite Branca - A Redirecionar...</title>
+    <title>Noite Branca - Preparar Post</title>
     <style>
         body {
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
-            background: #0b0b1a; /* Tema escuro estilo Noite Branca */
+            background: #0b0b1a; 
             color: white;
             text-align: center;
             display: flex;
@@ -24,7 +24,6 @@
             max-width: 320px;
             box-shadow: 0 10px 30px rgba(0,0,0,0.5);
         }
-        /* Animação simples de loading */
         .spinner {
             border: 4px solid rgba(255, 255, 255, 0.1);
             width: 50px;
@@ -39,42 +38,52 @@
             100% { transform: rotate(360deg); }
         }
         h2 { margin: 0 0 10px 0; font-size: 22px; }
-        p { color: #aaa; font-size: 14px; margin: 0; }
+        p { color: #ccc; font-size: 15px; line-height: 1.4; margin-bottom: 15px; }
+        .tags-highlight {
+            background: rgba(220, 39, 67, 0.2);
+            color: #ff4a6b;
+            padding: 8px;
+            border-radius: 6px;
+            font-weight: bold;
+            font-family: monospace;
+            display: inline-block;
+            margin-bottom: 10px;
+        }
     </style>
 </head>
 <body>
 
 <div class="loader-container">
     <div class="spinner"></div>
-    <h2>A abrir o Instagram...</h2>
-    <p>As tags já foram copiadas! Quando a câmara abrir, basta tocares no ecrã e selecionar "Colar".</p>
+    <h2>A preparar o Instagram...</h2>
+    <p>Copiamos as seguintes tags para o teu telemóvel:</p>
     
-    <div id="textoSecreto" style="display: none;">@asuasite #NoiteBranca</div>
+    <div class="tags-highlight" id="textoParaCopiar">@asuasite #NoiteBranca</div>
+    
+    <p style="font-size: 13px; color: #888;">A abrir a câmara em 3 segundos... Quando tirar a foto, basta fazer <b>Colar</b>!</p>
 </div>
 
 <script>
-// Esta função corre automaticamente assim que a página termina de carregar
 window.onload = function() {
-    const textoParaCopiar = document.getElementById("textoSecreto").innerText;
+    const texto = document.getElementById("textoParaCopiar").innerText;
 
-    // Tenta copiar o @ e a hashtag para o telemóvel do utilizador
-    navigator.clipboard.writeText(textoParaCopiar).then(() => {
-        redirecionarParaInsta();
+    // 1. Copia o texto assim que a página abre
+    navigator.clipboard.writeText(texto).then(() => {
+        console.log("Texto copiado com sucesso!");
     }).catch(err => {
-        // Se o navegador do telemóvel bloquear a cópia automática (raro), abre o Insta na mesma
-        redirecionarParaInsta();
+        console.log("Erro ao copiar automaticamente");
     });
-};
 
-function redirecionarParaInsta() {
-    // Força a abertura da câmara de Stories do Instagram
-    window.location.href = "instagram://story-camera";
-    
-    // Fallback: Se o telemóvel demorar a responder ou não tiver a app, vai para o perfil web
-    setTimeout(() => {
-        window.location.href = "https://instagram.com/mordomiasaopedro";
-    }, 1500);
-}
+    // 2. Aguarda 3000 milissegundos (3 segundos) antes de saltar para o Instagram
+    setTimeout(function() {
+        window.location.href = "instagram://story-camera";
+        
+        // Fallback caso a app falhe
+        setTimeout(() => {
+            window.location.href = "https://instagram.com/asuasite";
+        }, 1500);
+    }, 3000); 
+};
 </script>
 
 </body>
