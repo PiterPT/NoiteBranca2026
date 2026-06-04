@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Partilhar no Instagram</title>
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; padding: 50px; }
+        .btn-insta { background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%); 
+                     color: white; padding: 15px 30px; border: none; border-radius: 25px; font-size: 16px; cursor: pointer; }
+    </style>
+</head>
+<body>
+
+    <h2>Obrigado pela visita! 📸</h2>
+    <p>Clica no botão abaixo para abrir o teu Instagram com a nossa hashtag e tag prontas.</p>
+
+    <button class="btn-insta" onclick="abrirInstagram()">Partilhar no Insta</button>
+
+    <script>
+        function abrirInstagram() {
+            const username = "mordomiasaopedro"; // A tua conta
+            
+            // Tenta abrir a câmara de Stories do Instagram diretamente
+            // Nota: O comportamento pode variar dependendo do sistema operativo (iOS/Android)
+            const instagramStoryUrl = `instagram://story-camera`;
+            
+            // Fallback caso a app não abra: vai para o perfil para eles tagerem no feed
+            const webUrl = `https://instagram.com/${username}`;
+
+            // Tenta abrir a app, se falhar após 1.5 segundos, vai para o navegador
+            const abrirApp = window.open(instagramStoryUrl, '_blank');
+            
+            setTimeout(function() {
+                if (!abrirApp || abrirApp.closed) {
+                    window.location.href = webUrl;
+                }
+            }, 1500);
+        }
+    </script>
+
+</body>
+</html>
