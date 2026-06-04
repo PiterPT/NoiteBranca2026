@@ -46,23 +46,19 @@
             cursor: pointer;
             width: 100%;
             box-shadow: 0 5px 15px rgba(220, 39, 67, 0.4);
-            transition: transform 0.2s;
+            display: block;
         }
-        .btn-insta:active {
-            transform: scale(0.98);
-        }
-        h2 { margin: 0 0 10px 0; font-size: 24px; }
-        p { color: #ccc; font-size: 14px; line-height: 1.4; margin: 0; }
     </style>
 </head>
 <body>
 
 <div class="card">
     <h2>Noite Branca 🌟</h2>
-    <p>Clica abaixo para copiar as tags e abrir a tua câmara do Instagram automaticamente.</p>
+    <p>Clica abaixo para copiar as tags e abrir a tua câmara do Instagram.</p>
     
     <div class="tags-box" id="textoParaCopiar">@asuasite #NoiteBranca</div>
 
+    <!-- Botão limpo, sem scripts ocultos no carregamento da página -->
     <button class="btn-insta" onclick="copiarEAbrir()">Copiar e Abrir Instagram</button>
     
     <p style="font-size: 12px; color: #777; margin-top: 20px;">Quando a câmara abrir, tira a foto, toca no ecrã e escolhe <b>Colar</b>!</p>
@@ -72,19 +68,17 @@
 function copiarEAbrir() {
     const texto = document.getElementById("textoParaCopiar").innerText;
 
-    // Copia o texto (funciona sempre porque foi acionado por um clique real)
-    navigator.clipboard.writeText(texto).then(() => {
-        // Abre imediatamente a câmara de Stories do Instagram
-        window.location.href = "instagram://story-camera";
-        
-        // Fallback caso a app não responda
-        setTimeout(() => {
-            window.location.href = "https://instagram.com/asuasite";
-        }, 1500);
-    }).catch(err => {
-        // Se houver algum erro de permissão do browser, abre a app na mesma
-        window.location.href = "instagram://story-camera";
-    });
+    // 1. Copia o texto para a área de transferência
+    navigator.clipboard.writeText(texto)
+        .then(() => {
+            console.log("Copiado!");
+        })
+        .catch(err => {
+            console.log("Erro ao copiar");
+        });
+
+    // 2. Abre a app (Sem timers em background para evitar loops ou saltos automáticos)
+    window.location.href = "instagram://story-camera";
 }
 </script>
 
