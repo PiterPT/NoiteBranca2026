@@ -57,28 +57,45 @@
     <p>Clica abaixo para copiar as tags e abrir a tua câmara do Instagram.</p>
     
     <div class="tags-box" id="textoParaCopiar">@mordomiasaopedro #NoiteBranca</div>
+    <p style="font-size: 12px; color: #777; margin-top: 20px;">
+    Quando a câmara abrir, tira a foto, toca no ecrã e seleciona <b>Colar</b>.
+    </p>
 
+    <p style="font-size: 12px; color: #777; margin-top: 20px;">
+    De seguida, toca em <b>Mencionar</b> e procura por <b>mordomiasaopedro</b>.
+    </p>
+
+    <p style="font-size: 12px; color: #777; margin-top: 20px;">
+    Desde já, obrigado pela tua presença. Diverte-te!
+    </p>
     <!-- Botão limpo, sem scripts ocultos no carregamento da página -->
     <button class="btn-insta" onclick="copiarEAbrir()">Copiar e Abrir Instagram</button>
-    
-    <p style="font-size: 12px; color: #777; margin-top: 20px;">Quando a câmara abrir, tira a foto, toca no ecrã e escolhe <b>Colar</b>!</p>
 </div>
 
+
 <script>
-function copiarEAbrir() {
+async function copiarEAbrir() {
     const texto = document.getElementById("textoParaCopiar").innerText;
 
-    // 1. Copia o texto para a área de transferência
-    navigator.clipboard.writeText(texto)
-        .then(() => {
-            console.log("Copiado!");
-        })
-        .catch(err => {
-            console.log("Erro ao copiar");
-        });
+    // Copiar texto
+    try {
+        await navigator.clipboard.writeText(texto);
+        console.log("Copiado!");
+    } catch (err) {
+        console.log("Erro ao copiar:", err);
+    }
 
-    // 2. Abre a app (Sem timers em background para evitar loops ou saltos automáticos)
-    window.location.href = "instagram://story-camera";
+    const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
+
+    if (isIOS) {
+        // iPhone/iPad - mais compatível
+        setTimeout(() => {
+            window.location.href = "instagram://";
+        }, 300);
+    } else {
+        // Android
+        window.location.href = "instagram://story-camera";
+    }
 }
 </script>
 
